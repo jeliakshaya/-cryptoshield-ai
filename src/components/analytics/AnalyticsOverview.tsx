@@ -1,0 +1,18 @@
+import React, { useEffect, useState } from 'react';
+import { apiFetch } from '../../services/apiClient';
+import { SystemAnalytics } from '../../types/crypto';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+import { BarChart3, CheckCircle2, FileSpreadsheet } from 'lucide-react';
+
+export const AnalyticsOverview: React.FC = () => {
+  const [timeframe,setTimeframe]=useState<'daily'|'weekly'|'monthly'>('weekly');
+  const [exported,setExported]=useState(false); const [data,setData]=useState<SystemAnalytics|null>(null);
+  useEffect(()=>{apiFetch<{analytics:SystemAnalytics}>('/analytics/overview').then(r=>setData(r.analytics)).catch(console.error);},[]);
+  const handleExport=()=>{if(!data)return;const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`cryptoshield-analytics-${Date.now()}.json`;a.click();URL.revokeObjectURL(url);setExported(true);setTimeout(()=>setExported(false),2500);};
+  if(!data)return <div className="p-8 rounded-2xl bg-white/5 border border-white/10 text-cyan-300 font-mono">Loading live analytics from backend...</div>;
+  return <div className="space-y-6">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><h2 className="text-xl font-bold text-white flex items-center gap-2"><BarChart3 className="w-5 h-5 text-cyan-400"/>Cybersecurity & ML Analytics Center</h2><p className="text-xs text-slate-400 mt-1">Live telemetry calculated from PostgreSQL transaction records.</p></div><div className="flex items-center gap-2"><div className="flex items-center bg-white/5 p-1 rounded-xl border border-white/10 text-xs font-mono backdrop-blur-md">{(['daily','weekly','monthly'] as const).map(t=><button key={t} onClick={()=>setTimeframe(t)} className={`px-3 py-1 rounded-lg capitalize ${timeframe===t?'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold':'text-slate-400'}`}>{t}</button>)}</div><button onClick={handleExport} className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 font-mono text-xs font-bold flex items-center gap-1.5"><FileSpreadsheet className="w-4 h-4 text-cyan-400"/>{exported?'Report Downloaded!':'Export JSON Audit'}</button></div></div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono">{[['Detection Accuracy',data.detectionAccuracy > 0 ? `${data.detectionAccuracy}%` : 'N/A','text-emerald-400'],['False Positive Rate',data.falsePositiveRate > 0 ? `${data.falsePositiveRate}%` : 'N/A','text-cyan-400'],['Avg Analysis Time',`${data.avgAnalysisTimeMs} ms`,'text-cyan-400'],['AI Confidence',`${data.aiConfidenceAvg.toFixed(1)}%`,'text-emerald-400'],['Threats',data.totalThreats,'text-rose-400'],['High Risk',data.highRiskCount,'text-amber-400']].map(([label,value,color])=><div key={label} className="bg-white/5 p-4 rounded-2xl border border-white/10"><span className="text-slate-400 text-[11px] block">{label}</span><p className={`text-2xl font-bold mt-1 ${color}`}>{value}</p><span className="text-[10px] text-slate-400 flex items-center gap-1"><CheckCircle2 className="w-3 h-3"/>Backend metric</span></div>)}</div>
+    <div className="bg-white/5 border border-white/10 rounded-2xl p-5"><h3 className="text-sm font-bold text-white font-mono mb-4">Risk Score Distribution</h3><div className="h-72"><ResponsiveContainer width="100%" height="100%"><BarChart data={data.riskScoreHistogram}><CartesianGrid strokeDasharray="3 3" stroke="#1e293b"/><XAxis dataKey="range" stroke="#64748b"/><YAxis stroke="#64748b"/><Tooltip/><Bar dataKey="count" fill="#22d3ee" radius={[6,6,0,0]}/></BarChart></ResponsiveContainer></div></div>
+  </div>;
+};

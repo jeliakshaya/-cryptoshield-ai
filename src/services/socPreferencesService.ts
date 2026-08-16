@@ -1,0 +1,5 @@
+import { apiFetch } from './apiClient';
+export interface SocPreferences{name:string;email:string;department:string;riskSensitivity:'high'|'medium'|'strict';twoFactorEnabled:boolean;autoBlockHighRisk:boolean;webhookUrl:string;lastUpdated?:string;}
+export const DEFAULT_SOC_PREFERENCES:SocPreferences={name:'',email:'',department:'Cyber Threat Intelligence',riskSensitivity:'medium',twoFactorEnabled:true,autoBlockHighRisk:true,webhookUrl:''};
+export const loadSocPreferences=async():Promise<SocPreferences>=>{const r=await apiFetch<{preferences:SocPreferences|null}>('/preferences');return r.preferences??DEFAULT_SOC_PREFERENCES;};
+export const saveSocPreferences=async(p:SocPreferences)=>{if(!p.name.trim())throw new Error('Full Name cannot be empty.');if(!p.email.includes('@'))throw new Error('Please enter a valid email.');if(!p.department.trim())throw new Error('Department cannot be empty.');const r=await apiFetch<{preferences:SocPreferences}>('/preferences',{method:'PUT',body:JSON.stringify(p)});return r.preferences;};

@@ -1,0 +1,21 @@
+import { Router } from 'express';
+import auth from './auth.routes.js';
+import transactions from './transaction.routes.js';
+import wallets from './wallet.routes.js';
+import alerts from './alert.routes.js';
+import ai from './ai.routes.js';
+import preferences from './preferences.routes.js';
+import analytics from './analytics.routes.js';
+import live from './live.routes.js';
+
+const router = Router();
+router.use('/auth', auth);
+router.use('/transactions', transactions);
+router.use('/wallets', wallets);
+router.use('/alerts', alerts);
+router.use('/ai', ai);
+router.use('/preferences', preferences);
+router.use('/analytics', analytics);
+router.use('/live', live);
+router.get('/health', (_req, res) => res.json({ ok: true, service: 'cryptoshield-api', time: new Date().toISOString() }));
+export default router;

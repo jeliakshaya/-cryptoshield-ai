@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+:root, html[data-theme="dark"], .dark, .dark-mode {
+  --bg-primary: #020617;
+  --bg-secondary: #0f172a;
+  --bg-card: rgba(15, 23, 42, 0.6);
+  --bg-card-hover: rgba(30, 41, 59, 0.7);
+  --bg-input: rgba(255, 255, 255, 0.05);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  color-scheme: dark;
+}
+
+html[data-theme="light"], .light, .light-mode {
+  --bg-primary: #f1f5f9;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-input: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --border-color: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  color-scheme: light;
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    overflow-x: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* Light Mode Comprehensive Overrides */
+html[data-theme="light"] body,
+.light-mode body,
+.light body {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* Containers, Cards & Panels */
+html[data-theme="light"] .bg-slate-950,
+html[data-theme="light"] .bg-slate-900,
+html[data-theme="light"] .bg-slate-900\/90,
+html[data-theme="light"] .bg-slate-900\/50,
+html[data-theme="light"] .bg-slate-900\/40,
+html[data-theme="light"] .bg-slate-900\/80,
+html[data-theme="light"] .bg-slate-900\/95,
+html[data-theme="light"] .bg-slate-800,
+html[data-theme="light"] .bg-slate-800\/50,
+html[data-theme="light"] .bg-slate-800\/80,
+html[data-theme="light"] .bg-[#020617],
+html[data-theme="light"] .bg-[#030712],
+html[data-theme="light"] .bg-[#0f172a],
+html[data-theme="light"] .bg-black,
+html[data-theme="light"] .bg-black\/50,
+html[data-theme="light"] .bg-black\/80,
+html[data-theme="light"] .bg-gray-900,
+html[data-theme="light"] .bg-gray-950 {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Subtle background boxes & Pills */
+html[data-theme="light"] .bg-white\/5,
+html[data-theme="light"] .bg-white\/10 {
+  background-color: #f8fafc !important;
+}
+
+html[data-theme="light"] .hover\:bg-white\/10:hover,
+html[data-theme="light"] .hover\:bg-white\/5:hover {
+  background-color: #e2e8f0 !important;
+}
+
+/* Typography in Light Mode */
+html[data-theme="light"] .text-white,
+html[data-theme="light"] .text-slate-100,
+html[data-theme="light"] .text-slate-200 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .text-slate-300,
+html[data-theme="light"] .text-slate-400 {
+  color: #334155 !important;
+}
+
+html[data-theme="light"] .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Borders in Light Mode */
+html[data-theme="light"] .border-white\/10,
+html[data-theme="light"] .border-white\/5,
+html[data-theme="light"] .border-white\/20,
+html[data-theme="light"] .border-slate-800,
+html[data-theme="light"] .border-slate-700,
+html[data-theme="light"] .border-slate-800\/50 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Inputs & Form Controls */
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Accents high-contrast in Light Mode */
+html[data-theme="light"] .text-cyan-400 {
+  color: #0284c7 !important;
+}
+html[data-theme="light"] .text-cyan-300 {
+  color: #0369a1 !important;
+}
+html[data-theme="light"] .text-emerald-400 {
+  color: #059669 !important;
+}
+html[data-theme="light"] .text-amber-400 {
+  color: #d97706 !important;
+}
+html[data-theme="light"] .text-rose-400 {
+  color: #e11d48 !important;
+}
+
+/* Header & Nav Bar Specifics */
+html[data-theme="light"] header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Scrollbars in Light Mode */
+html[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 9999px;
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(2, 132, 199, 0.5);
+}
